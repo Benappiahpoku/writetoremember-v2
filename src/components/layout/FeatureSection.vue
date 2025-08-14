@@ -27,7 +27,7 @@
       </div>
 
       <p class="text-gray-600 text-sm leading-relaxed">
-        Study in Q&amp;A format like real tests — practice the way exams ask questions to build confidence.
+        Study in Q&amp;A format like real tests — practice with exams style questions to build confidence.
       </p>
 
     

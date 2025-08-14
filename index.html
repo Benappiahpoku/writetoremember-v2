@@ -1,59 +1,82 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- ===== Basic / Required ===== -->
     <meta charset="UTF-8" />
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1"
-    />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#1F3A8A" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="description"
-      content=" Write to Remember – The Easiest Way to Study">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://study-stratonea.vercel.app/">
-    <meta property="og:title" content="Stratonea Study Tip">
-    <meta property="og:description"
-      content=" Write to Remember – The Easiest Way to Study">
-    <meta property="og:image" content="https://study-stratonea.vercel.app/og-image.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:locale" content="en_GH">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://study-stratonea.vercel.app/">
-    <meta name="twitter:title" content="Stratonea Study Tip">
-    <meta name="twitter:description"
-      content=" Write to Remember – The Easiest Way to Study">
-    <meta name="twitter:image" content="https://study-stratonea.vercel.app/og-image.jpg">
-    <meta name="twitter:image:alt" content="Stratonea Study Tip">
-
-
-
-    <!-- Preconnect to critical domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-
-    <!-- Enable PWA capabilities -->
-    <link rel="manifest" href="/manifest.json" />
-
-    <!-- Optimize text rendering -->
-    <meta name="text-size-adjust" content="100%" />
-
-    <!-- Disable automatic phone number detection for better performance -->
     <meta name="format-detection" content="telephone=no" />
-
-    <title>Stratonea App</title>
-
-    <!-- Add critical CSS inline for faster first paint -->
+    <meta name="text-size-adjust" content="100%" />
+  
+    <!-- ===== SEO: Title, description, canonical, robots, keywords ===== -->
+    <title>Write to Remember — Simple Q&A Study Method for Kids & Parents</title>
+    <meta name="description"
+      content="Write to Remember — turn notes into short Q&A, test memory, and lock learning with repetition. A simple, mobile‑first study method for kids and parents." />
+    <meta name="keywords"
+      content="study tips, learning, memory, spaced repetition, study for kids, study for parents, exam practice" />
+    <meta name="author" content="Stratonea" />
+    <link rel="canonical" href="https://study-stratonea.vercel.app/" />
+    <meta name="robots" content="index,follow" />
+  
+    <!-- ===== Open Graph / Facebook ===== -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Stratonea" />
+    <meta property="og:url" content="https://study-stratonea.vercel.app/" />
+    <meta property="og:title" content="Write to Remember — Simple Q&A Study Method" />
+    <meta property="og:description"
+      content="Turn notes into short questions, practice with quick tests, and lock learning using repetition — designed mobile-first for families." />
+    <meta property="og:image" content="https://study-stratonea.vercel.app/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_GH" />
+  
+    <!-- ===== Twitter ===== -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Write to Remember — Simple Q&A Study Method" />
+    <meta name="twitter:description"
+      content="Mobile-first study method for kids and parents: turn notes into short questions, test, and repeat." />
+    <meta name="twitter:image" content="https://study-stratonea.vercel.app/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Write to Remember — Study Tip" />
+  
+    <!-- ===== International / Hreflang ===== -->
+    <link rel="alternate" href="https://study-stratonea.vercel.app/" hreflang="en-GH" />
+    <link rel="alternate" href="https://study-stratonea.vercel.app/" hreflang="en" />
+  
+    <!-- ===== Preconnect / Performance ===== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- If you use Google Fonts, load a minimal subset in production -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"> -->
+  
+    <!-- ===== Structured Data (JSON-LD) ===== -->
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "url": "https://study-stratonea.vercel.app/",
+          "name": "Write to Remember",
+          "description": "Turn notes into short questions, test memory, and lock learning with repetition. Mobile-first study method for kids and parents.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Stratonea",
+            "url": "https://study-stratonea.vercel.app/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://study-stratonea.vercel.app/favicon.svg"
+            }
+          }
+        }
+      </script>
+  
+    <!-- ===== Minimal critical CSS for fast first paint (kept inline) ===== -->
     <style>
-      /* ===== Loading Spinner Styles ===== */
-      /* Enhanced loading state with animated spinner optimized for Ghana mobile users */
+      /* Loading placeholder optimized for mobile */
       #app:empty {
         display: flex;
         flex-direction: column;
@@ -64,8 +87,7 @@
         padding: 20px;
         box-sizing: border-box;
       }
-      
-      /* Animated spinner circle */
+  
       #app:empty::before {
         content: '';
         width: 48px;
@@ -76,14 +98,10 @@
         animation: spin 1s linear infinite;
         margin-bottom: 16px;
       }
-      
-      /* Loading text underneath spinner */
+  
       #app:empty::after {
         content: 'Loading site information...';
-        font-family:
-          system-ui,
-          -apple-system,
-          sans-serif;
+        font-family: system-ui, -apple-system, sans-serif;
         color: #1f3a8a;
         font-size: 16px;
         font-weight: 500;
@@ -92,45 +110,34 @@
         max-width: 280px;
         animation: pulse 2s ease-in-out infinite;
       }
-      
-      /* Spinner rotation animation */
+  
       @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+          transform: rotate(0deg)
+        }
+  
+        100% {
+          transform: rotate(360deg)
+        }
       }
-      
-      /* Text pulsing animation for visual feedback */
+  
       @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.7; }
-      }
-      
-      /* Responsive adjustments for smaller screens */
-      @media (max-width: 480px) {
-        #app:empty::before {
-          width: 40px;
-          height: 40px;
-          border-width: 3px;
+  
+        0%,
+        100% {
+          opacity: 1
         }
-        #app:empty::after {
-          font-size: 14px;
+  
+        50% {
+          opacity: .7
         }
       }
-      
+  
       body {
-        font-family:
-          system-ui,
-          -apple-system,
-          BlinkMacSystemFont,
-          'Segoe UI',
-          Roboto,
-          Oxygen,
-          Ubuntu,
-          Cantarell,
-          sans-serif;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, Cantarell, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-rendering: optimizeLegibility;
+        text-rendering: optimizeLegibility
       }
     </style>
   </head>
