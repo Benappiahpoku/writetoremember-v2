@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1"
+    />
+    <meta name="theme-color" content="#1F3A8A" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="description"
+      content="Stratonea Frontend Starter.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://invoicemaker-eosin.vercel.app/">
+    <meta property="og:title" content="Stratonea Frontend Starter">
+    <meta property="og:description"
+      content="Stratonea Frontend Starter.">
+    <meta property="og:image" content="https://invoicemaker-eosin.vercel.app/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_GH">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://invoicemaker-eosin.vercel.app/">
+    <meta name="twitter:title" content="Stratonea Frontend Starter">
+    <meta name="twitter:description"
+      content="Stratonea Frontend Starter">
+    <meta name="twitter:image" content="https://invoicemaker-eosin.vercel.app/og-image.jpg">
+    <meta name="twitter:image:alt" content="Stratonea Frontend Starter">
+
+
+
+    <!-- Preconnect to critical domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+
+    <!-- Enable PWA capabilities -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Optimize text rendering -->
+    <meta name="text-size-adjust" content="100%" />
+
+    <!-- Disable automatic phone number detection for better performance -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <title>Stratonea App</title>
+
+    <!-- Add critical CSS inline for faster first paint -->
+    <style>
+      /* ===== Loading Spinner Styles ===== */
+      /* Enhanced loading state with animated spinner optimized for Ghana mobile users */
+      #app:empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: #f9fafb;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      
+      /* Animated spinner circle */
+      #app:empty::before {
+        content: '';
+        width: 48px;
+        height: 48px;
+        border: 4px solid #e5e7eb;
+        border-top: 4px solid #1f3a8a;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 16px;
+      }
+      
+      /* Loading text underneath spinner */
+      #app:empty::after {
+        content: 'Loading site information...';
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        color: #1f3a8a;
+        font-size: 16px;
+        font-weight: 500;
+        text-align: center;
+        line-height: 1.4;
+        max-width: 280px;
+        animation: pulse 2s ease-in-out infinite;
+      }
+      
+      /* Spinner rotation animation */
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Text pulsing animation for visual feedback */
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+      }
+      
+      /* Responsive adjustments for smaller screens */
+      @media (max-width: 480px) {
+        #app:empty::before {
+          width: 40px;
+          height: 40px;
+          border-width: 3px;
+        }
+        #app:empty::after {
+          font-size: 14px;
+        }
+      }
+      
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          Oxygen,
+          Ubuntu,
+          Cantarell,
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Add noscript message for users without JavaScript -->
+    <noscript>
+      <div style="padding: 20px; text-align: center; font-family: system-ui, sans-serif">
+        Please enable JavaScript to use this application.
+      </div>
+    </noscript>
+
+    <div id="app"></div>
+
+    <!-- Add connection status indicator for instant feedback -->
+    <script>
+      window.addEventListener('offline', () => {
+        document.body.classList.add('is-offline')
+      })
+      window.addEventListener('online', () => {
+        document.body.classList.remove('is-offline')
+      })
+    </script>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
