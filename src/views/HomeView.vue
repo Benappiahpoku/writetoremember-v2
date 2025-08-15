@@ -79,17 +79,16 @@
             How It Works
           </button>
 
-          <a
-            :href="pdfUrl"
-            download
-            @click="trackEvent('download_free_guide_clicked')"
+          <!-- ===== [New Feature] START: use openPdf handler for reliable mobile behavior ===== -->
+          <button
+            @click="openPdf"
             class="inline-flex items-center justify-center border border-primary text-primary bg-white hover:bg-primary/5 font-semibold py-3 px-6 rounded-stratonea shadow-sm focus:ring-2 focus:ring-primary/20 transition"
             aria-label="Download Free Guide"
-            target="_blank"
-            rel="noopener noreferrer"
+            type="button"
           >
             Download Free Guide
-          </a>
+          </button>
+          <!-- ===== [New Feature] END ===== -->
         </div>
       </div>
     </section>
@@ -109,9 +108,8 @@
 <script setup lang="ts">
 // ===== File-Level Documentation =====
 // HomeView.vue - hero with robust YouTube thumbnail resolution and polling.
-// Change applied: avoid immediate maxresdefault request to reduce 404 noise.
-// - Try hq/mq/sd/default immediately, then poll for maxres in background.
-// - Keeps autoplay muted, blur-up thumbnail, centered mobile CTAs, and PDF fix.
+// Small reliability change: use openPdf() to open the free guide using window.open on user click,
+// avoiding inconsistent download behavior on iOS browsers.
 
 // ===== Imports =====
 import { ref, computed, nextTick, onMounted, onBeforeUnmount } from 'vue'
@@ -166,9 +164,7 @@ async function imageExists(url: string): Promise<boolean> {
 }
 
 // ===== Resolve best available thumbnail (tries common YouTube names) =====
-// ===== [New Feature] START: avoid immediate maxres request to reduce 404 noise =====
 async function resolveBestThumbnail(id: string): Promise<string> {
-  // Try good-enough variants first (no maxres) to avoid initial 404s in DevTools.
   const immediateVariants = ['hqdefault', 'mqdefault', 'sddefault', 'default']
   for (const v of immediateVariants) {
     const url = `https://i.ytimg.com/vi/${id}/${v}.jpg`
@@ -178,11 +174,9 @@ async function resolveBestThumbnail(id: string): Promise<string> {
       return v
     }
   }
-  // Fallback to default if nothing found
   thumbnailUrl.value = `https://i.ytimg.com/vi/${id}/default.jpg`
   return 'default'
 }
-// ===== [New Feature] END =====
 
 // ===== Polling: periodically check for maxresdefault and update if available =====
 function startThumbnailPolling(id: string) {
@@ -242,16 +236,25 @@ function closeWalkthrough() {
   })
 }
 
+// ===== [New Feature] START: reliable PDF opener =====
+function openPdf() {
+  try {
+    window.open(pdfUrl, '_blank', 'noopener')
+  } catch {
+    window.location.href = pdfUrl
+  }
+}
+// ===== [New Feature] END =====
+
 // ===== Lifecycle: resolve thumbnail, start polling if needed; autoplay muted on mount =====
 onMounted(async () => {
   try {
     const chosen = await resolveBestThumbnail(videoId)
-    // Start polling for maxres in background (no immediate maxres request)
     if (chosen !== 'maxresdefault') {
       startThumbnailPolling(videoId)
     }
   } catch {
-    // ignore errors; thumbnailUrl has a fallback
+    // ignore
   }
 
   // autoplay muted on visit (browser permitting)
