@@ -2,10 +2,7 @@
   <!--
     DownloadPDF.vue
     - Responsive download card for free poster/guide.
-    - Uses FeatureSection visual pattern: accent stripe, numeric/letter badge, hover lift.
-    - Buttons stack vertically on mobile and align horizontally on md+.
-    - Small reliability fix: open PDF via window.open on user click to avoid iOS download quirks.
-    - All changes marked with [New Feature].
+    - Uses shared downloadFile utility for reliable downloads on mobile.
   -->
   <section class="w-full max-w-2xl mx-auto py-6 px-4">
     <article
@@ -24,9 +21,8 @@
       </div>
 
       <!-- Buttons: stack on mobile, horizontal on md+ -->
-      <!-- ===== [New Feature] START: responsive buttons + reliable open handler ===== -->
       <div class="w-full mt-2 flex flex-col md:flex-row items-center justify-center gap-3">
-        <!-- Primary: Download (filled) - use click handler for reliable mobile behavior -->
+        <!-- Primary: Download (filled) -->
         <button
           @click="openPdf"
           class="inline-flex items-center justify-center bg-primary hover:bg-primary-hover text-white font-semibold py-3 px-6 rounded-stratonea shadow-lg focus:outline-none focus:ring-2 focus:ring-primary/30 min-w-[160px] text-center"
@@ -47,22 +43,23 @@
           Share Poster
         </a>
       </div>
-      <!-- ===== [New Feature] END ===== -->
     </article>
   </section>
 </template>
 
 <script setup lang="ts">
 // ===== File-Level Documentation =====
-// DownloadPDF.vue - compact, mobile-first download card for the free poster
-// - Reliability fix: openPdf() uses window.open to reliably open the PDF on iOS/Android browsers.
-// - Buttons stack vertically on small screens and display horizontally on md+.
+// DownloadPDF.vue - compact download card that uses the shared downloadFile utility.
+// Change: call downloadFile from src/utils/DownloadFile.ts to fetch+download the poster reliably.
 
 // ===== Imports & Helpers =====
 import { computed } from 'vue'
+// Import the reusable utility (match filename DownloadFile.ts)
+import { downloadFile } from '@/utils/DownloadFile'
 
 // ===== Constants & Config =====
-const pdfUrl = '/freeguide.pdf' // public path to poster/pdf
+const pdfFileName = 'freeguide.pdf'
+const pdfUrl = `${import.meta.env.BASE_URL || '/'}${pdfFileName}`
 
 // WhatsApp share link: opens chat composer with pre-filled message
 const whatsAppShareLink = computed(() => {
@@ -70,18 +67,21 @@ const whatsAppShareLink = computed(() => {
   return `https://wa.me/?text=${message}`
 })
 
-// ===== [New Feature] START: reliable PDF open handler =====
+// ===== [New Feature] START: reliable PDF open handler using downloadFile =====
 /**
- * Open the PDF in a new tab/window using window.open on a user click.
- * Rationale: mobile browsers (iOS Safari/Chrome) treat download attribute inconsistently.
- * Using a direct user-initiated window.open ensures the action is allowed and repeatable.
+ * Use the shared downloadFile utility to download the poster without navigating away.
+ * This avoids inconsistent anchor+download behavior on iOS and ensures repeated clicks work.
  */
-function openPdf() {
+async function openPdf() {
   try {
-    window.open(pdfUrl, '_blank', 'noopener')
-  } catch (e) {
-    // fallback: navigate in same tab
-    window.location.href = pdfUrl
+    await downloadFile(pdfUrl, pdfFileName, {
+      fallbackToWindowOpen: true,
+      allowRemote: false
+    })
+  } catch (err) {
+    // downloadFile logs detailed errors; keep component lightweight
+    // Optionally show a toast here in the future
+    console.error('Download failed', err)
   }
 }
 // ===== [New Feature] END =====
@@ -98,8 +98,8 @@ function openPdf() {
 
 /* Ensure min-width for buttons on small screens for comfortable touch targets */
 @media (max-width: 767px) {
-    .min-w-\[160px\] {
-        min-width: 160px;
-    }
+  .min-w-\[160px\] {
+    min-width: 160px;
+  }
 }
 </style>

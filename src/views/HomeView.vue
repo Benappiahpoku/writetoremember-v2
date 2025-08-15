@@ -79,7 +79,7 @@
             How It Works
           </button>
 
-          <!-- ===== [New Feature] START: use openPdf handler for reliable mobile behavior ===== -->
+          <!-- ===== [New Feature] START: use downloadFile utility for reliable downloads ===== -->
           <button
             @click="openPdf"
             class="inline-flex items-center justify-center border border-primary text-primary bg-white hover:bg-primary/5 font-semibold py-3 px-6 rounded-stratonea shadow-sm focus:ring-2 focus:ring-primary/20 transition"
@@ -108,14 +108,18 @@
 <script setup lang="ts">
 // ===== File-Level Documentation =====
 // HomeView.vue - hero with robust YouTube thumbnail resolution and polling.
-// Small reliability change: use openPdf() to open the free guide using window.open on user click,
-// avoiding inconsistent download behavior on iOS browsers.
+// Change: use shared downloadFile utility to reliably download the guide from public folder.
+// This keeps behavior consistent across iOS/Android without relying on anchor+download quirks.
 
 // ===== Imports =====
 import { ref, computed, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import WalkthroughModal from '@/components/layout/WalkthroughModal.vue'
 import FeatureSection from '@/components/layout/FeatureSection.vue'
 import DownloadPDF from '@/components/layout/DownloadPDF.vue'
+
+// ===== [New Feature] =====
+// Import the reusable download utility (match actual filename: DownloadFile.ts)
+import { downloadFile } from '@/utils/DownloadFile'
 
 // ===== Constants & Config =====
 const pdfFileName = 'freeguide.pdf'
@@ -236,12 +240,21 @@ function closeWalkthrough() {
   })
 }
 
-// ===== [New Feature] START: reliable PDF opener =====
-function openPdf() {
+// ===== [New Feature] START: use downloadFile utility =====
+/**
+ * Trigger a reliable download of the public file using the shared utility.
+ * Keeps a UX-friendly behavior on iOS/Android since download is performed via fetch+blob.
+ */
+async function openPdf() {
   try {
-    window.open(pdfUrl, '_blank', 'noopener')
-  } catch {
-    window.location.href = pdfUrl
+    await downloadFile(pdfUrl, pdfFileName, {
+      fallbackToWindowOpen: true,
+      allowRemote: false
+    })
+    trackEvent('download_free_guide_clicked', { file: pdfFileName })
+  } catch (err) {
+    // downloadFile already logs errors; track event for diagnostics
+    trackEvent('download_failed', { file: pdfFileName, error: String(err) })
   }
 }
 // ===== [New Feature] END =====
