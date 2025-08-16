@@ -125,7 +125,7 @@ import { downloadFile } from '@/utils/DownloadFile'
 const pdfFileName = 'freeguide.pdf'
 const pdfUrl = `${import.meta.env.BASE_URL || '/'}${pdfFileName}`
 
-const videoId = 'FhjKcZF6FXc'
+const videoId = 'q413fBlQro8'
 const videoTitle = 'Write to Remember – The Simple Study Trick That Works'
 
 // Polling config
